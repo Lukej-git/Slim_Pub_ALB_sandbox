@@ -6,8 +6,22 @@ resource "random_integer" "subnet_id_selection" {
   }
 }
 
+data "aws_ami" "latest" {
+  most_recent = true
+  owners = ["amazon"]
+
+  filter {
+    name = "name"
+    values = ["al2023-ami-2023*x86_64"]
+    }
+  }
+
+output "ami_id" {
+  value = data.aws_ami.latest.id
+}
+
 resource "aws_instance" "webapp" {
-  ami                    = "ami-04c913012f8977029"
+  ami                    = data.aws_ami.latest.id
   instance_type          = var.instance_type
   subnet_id              = var.public_subnet_ids[random_integer.subnet_id_selection.result]
   vpc_security_group_ids = [aws_security_group.webapp.id]

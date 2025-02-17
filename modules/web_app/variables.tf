@@ -12,6 +12,7 @@ variable "instance_type" {
 variable "vpc_id" {
   description = "Virtual private cloud id"
   type        = string
+  default     = "vpc-03c5ef9d5b28c3852"
 }
 
 variable "public_subnet_ids" {
